@@ -53,8 +53,8 @@
     <UnityVersion>2020.3.21f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scenes\Scripts\Test\Example_Flight.cs" />
     <Compile Include="Assets\Scenes\Scripts\Test\Example_MouseLook.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_Flight.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

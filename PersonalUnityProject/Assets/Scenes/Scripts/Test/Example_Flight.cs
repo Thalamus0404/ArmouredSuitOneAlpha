@@ -6,8 +6,11 @@ public class Example_Flight : MonoBehaviour
 {
     public Transform player;
     public Rigidbody playerRigidbody;
-    public float speed = 15f;
-    public float rotSpeed = 15f;
+    public float speed = 1000f;
+    public float speedX;
+    public float rotSpeed = 30f;
+    public Camera playerCamera;
+    public Transform front;
 
     RaycastHit hit;
 
@@ -15,6 +18,9 @@ public class Example_Flight : MonoBehaviour
     {
         player = gameObject.transform;
         playerRigidbody = GetComponent<Rigidbody>();
+        playerCamera = GetComponentInChildren<Camera>();
+        front = GameObject.Find("Forward").GetComponent<Transform>();
+        speedX = 0.5f * speed;
     }
 
     void Update()
@@ -30,10 +36,29 @@ public class Example_Flight : MonoBehaviour
         //    float v = Input.GetAxis("Vertical");
         //    player.transform.Translate(Vector3.forward * v * Time.deltaTime * speed);
         //}
+        playerRigidbody.velocity = front.transform.forward * speedX * Time.deltaTime;
+
         if(Input.GetKey(KeyCode.W))
-        {            
-            playerRigidbody.velocity = transform.forward * speed * Time.deltaTime;
-            Debug.Log(playerRigidbody.velocity);
+        {
+            if(speedX <= speed)
+            {
+                speedX += 0.1f * speed * Time.deltaTime;
+            }        
+            else
+            {
+                speedX = speed;
+            }
+        }
+        if(Input.GetKey(KeyCode.S))
+        {
+            if(speedX >= 0)
+            {
+                speedX += -0.1f * speed * Time.deltaTime;
+            }
+            else
+            {
+                speedX = 0;
+            }
         }
         if (Input.GetKey(KeyCode.A))
         {
