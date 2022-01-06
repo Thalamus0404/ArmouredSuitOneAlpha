@@ -55,6 +55,13 @@
   <ItemGroup>
     <Compile Include="Assets\Scenes\Scripts\Test\Example_MouseLook.cs" />
     <Compile Include="Assets\Scenes\Scripts\Test\Example_Flight.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_WeaponShot.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_Enemy.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_RayRotation.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_PlayerMove.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_CameraRotation.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_WeaponSystem.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_Bullet.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

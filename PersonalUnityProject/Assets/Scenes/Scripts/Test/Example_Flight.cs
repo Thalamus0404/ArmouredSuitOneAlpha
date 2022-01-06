@@ -5,68 +5,98 @@ using UnityEngine;
 public class Example_Flight : MonoBehaviour
 {
     public Transform player;
-    public Rigidbody playerRigidbody;
-    public float speed = 1000f;
-    public float speedX;
-    public float rotSpeed = 30f;
+    public Rigidbody playerRigidbody; 
     public Camera playerCamera;
     public Transform front;
 
-    RaycastHit hit;
+    public float speed = 1000f;
+    public float speedX;
+    public float acceleration = 0.3f;
+    public float rotSpeed = 30f;
+    public float rotSpeedX;   
+    public float sensitivity = 100f;
+    public float rotationX;
+    public float rotationY;
+    public float rotationZ;
+
+    Vector3 mousePosition;
 
     void Start()
     {
         player = gameObject.transform;
         playerRigidbody = GetComponent<Rigidbody>();
-        playerCamera = GetComponentInChildren<Camera>();
         front = GameObject.Find("Forward").GetComponent<Transform>();
-        speedX = 0.5f * speed;
+        speedX = 0.5f * speed;        
     }
 
     void Update()
     {
-        //if(Input.GetKey(KeyCode.W))
-        //{            
-        //    float v = Input.GetAxis("Vertical");
-        //    player.transform.Translate(Vector3.forward * v * Time.deltaTime * speed);
-        //    Debug.Log(v);
-        //}
-        //if (Input.GetKey(KeyCode.S))
-        //{
-        //    float v = Input.GetAxis("Vertical");
-        //    player.transform.Translate(Vector3.forward * v * Time.deltaTime * speed);
-        //}
-        playerRigidbody.velocity = front.transform.forward * speedX * Time.deltaTime;
+        PlayerMove(speed);
+        MakeNormal(speed);
+        PlayerRotation(sensitivity);        
+    }
 
-        if(Input.GetKey(KeyCode.W))
+    public void PlayerMove(float speed)
+    {        
+        playerRigidbody.velocity = front.transform.forward * speedX * Time.deltaTime;        
+        
+        if (Input.GetKey(KeyCode.W))
         {
-            if(speedX <= speed)
+            if (speedX <= speed && !Input.GetKey(KeyCode.LeftShift))
             {
-                speedX += 0.1f * speed * Time.deltaTime;
-            }        
-            else
-            {
-                speedX = speed;
+                speedX += acceleration * speed * Time.deltaTime;
             }
-        }
-        if(Input.GetKey(KeyCode.S))
+            else if(speedX <= 2f * speed && Input.GetKey(KeyCode.LeftShift))
+            {
+                speedX += 2f * acceleration * speed * Time.deltaTime;
+            }
+        }        
+        if (Input.GetKey(KeyCode.S))
         {
-            if(speedX >= 0)
+            if (speedX >= 0)
             {
-                speedX += -0.1f * speed * Time.deltaTime;
-            }
-            else
-            {
-                speedX = 0;
-            }
+                speedX += -acceleration * speed * Time.deltaTime;
+            }            
         }
         if (Input.GetKey(KeyCode.A))
         {
-            player.transform.Rotate(0, 0, rotSpeed * Time.deltaTime);
+            rotSpeedX = rotSpeed;
         }
         if (Input.GetKey(KeyCode.D))
         {
-            player.transform.Rotate(0, 0, - rotSpeed * Time.deltaTime);
-        }        
+            rotSpeedX = -rotSpeed;
+        }
+    }
+
+    public void MakeNormal(float speed)
+    {
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S))
+        {
+            if (speedX <= 0.5f * speed)
+            {
+                speedX += acceleration * speed * Time.deltaTime;
+            }
+            if (speedX >= 0.5f * speed)
+            {
+                speedX += -acceleration * speed * Time.deltaTime;
+            }
+        }
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            rotSpeedX = 0;
+        }
+    }
+
+    public void PlayerRotation(float sensitivity)
+    {
+
+        mousePosition = Camera.main.ScreenToViewportPoint(Input.mousePosition);
+
+        float mouseRotationY = (mousePosition.x - 0.5f) * sensitivity * Time.deltaTime;
+        float mouseRotationX = (mousePosition.y - 0.5f) * sensitivity * Time.deltaTime;
+
+        transform.Rotate(Vector3.left * mouseRotationX);
+        transform.Rotate(Vector3.up * mouseRotationY);
+        transform.eulerAngles = new Vector3(transform.eulerAngles.x, transform.eulerAngles.y, rotationZ);
     }
 }
