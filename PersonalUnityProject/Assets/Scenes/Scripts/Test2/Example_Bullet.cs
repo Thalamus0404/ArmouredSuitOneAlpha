@@ -17,11 +17,7 @@ public class Example_Bullet : MonoBehaviour
         {
             case "Enemy":
                 Example_Enemy enemy = other.GetComponent<Example_Enemy>();
-                enemy.hp--;
-                if (enemy.hp <= 0)
-                {
-                    other.gameObject.SetActive(false);
-                }
+                enemy.hp--;                
                 break;
             default:
                 break;

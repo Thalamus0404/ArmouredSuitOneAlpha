@@ -13,6 +13,15 @@ public class Example_WeaponSystem : MonoBehaviour
     public float curTime;
     public float bulletSpeed = 5000f;
 
+    public bool isTrans = false;
+    public int transGuage = 0;
+    public int maxTransGuage = 1000;
+    public int transGuageCost = 50;
+
+    Ray ray;
+    RaycastHit hit;
+    public Example_Enemy example_Enemy;
+
     void Start()
     {
         weapon = bulletPrefab1;
@@ -24,19 +33,38 @@ public class Example_WeaponSystem : MonoBehaviour
 
     void Update()
     {        
-        if(curTime <= coolTime)
+        if (curTime <= coolTime)
         {
             curTime += Time.deltaTime;
         }
 
-        if(Input.GetMouseButton(0))
+        if (Input.GetMouseButton(0))
         {
-            BulletFire();            
+            if (isTrans)
+            {
+                TransBulletFire();
+            }
+            else
+            {
+                BulletFire();
+            }
         }
 
-        if(Input.GetKeyDown(KeyCode.C))
+        if (Input.GetKeyDown(KeyCode.C))
         {
-            WeaponSwap();
+            if (!isTrans)
+            {
+                WeaponSwap();
+            }
+        }
+
+        if (Input.GetKeyDown(KeyCode.Space) && !isTrans && transGuage > 0)
+        {
+            isTrans = true;
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && isTrans)
+        {
+            isTrans = false;
         }
     }
 
@@ -47,6 +75,23 @@ public class Example_WeaponSystem : MonoBehaviour
             GameObject bullet = Instantiate(weapon, firePosition.transform.position, firePosition.transform.rotation) as GameObject;
             Destroy(bullet, 1f);
             curTime = 0;
+        }
+    }
+
+    public void TransBulletFire()
+    {
+        if (curTime >= coolTime && transGuage > 0)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);            
+            Physics.Raycast(ray, out hit);            
+            transGuage -= transGuageCost;
+            curTime = 0;
+            if (hit.collider != null)
+            {
+                example_Enemy = hit.collider.GetComponent<Example_Enemy>();
+                example_Enemy.hp -= 5;
+            }
+            
         }
     }
 

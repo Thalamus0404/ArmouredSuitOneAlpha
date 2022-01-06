@@ -4,5 +4,13 @@ using UnityEngine;
 
 public class Example_Enemy : MonoBehaviour
 {
-    public int hp = 5;    
+    public int hp = 5;
+
+    void Update()
+    {
+        if (hp <= 0)
+        {
+            gameObject.SetActive(false);
+        }
+    }
 }
