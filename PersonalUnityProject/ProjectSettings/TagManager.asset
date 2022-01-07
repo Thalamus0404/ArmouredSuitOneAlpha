@@ -9,6 +9,12 @@ TagManager:
   - weapon1
   - weapon2
   - weapon3
+  - EnemyBullet
+  - EnemyRadar
+  - PlayerRadar
+  - PlayerBullet
+  - Ally
+  - AllyRadar
   layers:
   - Default
   - TransparentFX

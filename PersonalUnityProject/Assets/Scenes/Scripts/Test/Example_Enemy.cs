@@ -5,12 +5,22 @@ using UnityEngine;
 public class Example_Enemy : MonoBehaviour
 {
     public int hp = 5;
-
-    void Update()
+        
+    private void OnTriggerEnter(Collider other)
     {
-        if (hp <= 0)
+        switch (other.tag)
         {
-            gameObject.SetActive(false);
+            case "PlayerBullet":
+                Destroy(other);
+                hp -= other.GetComponent<Example_Bullet>().damage;
+                Debug.Log(hp + "¸ÂÀ½");
+                if (hp <= 0)
+                {
+                    GetComponentInParent<GameObject>().SetActive(false);
+                }
+                break;
+            default:
+                break;
         }
-    }
+    }    
 }

@@ -9,6 +9,7 @@ public class Example_WeaponSystem : MonoBehaviour
     public GameObject bulletPrefab2;
     public GameObject bulletPrefab3;
     public Transform firePosition;
+    public Transform pointer;
     public float coolTime = 1f;
     public float curTime;
     public float bulletSpeed = 5000f;
@@ -72,7 +73,11 @@ public class Example_WeaponSystem : MonoBehaviour
     {
         if (curTime >= coolTime)
         {
-            GameObject bullet = Instantiate(weapon, firePosition.transform.position, firePosition.transform.rotation) as GameObject;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            Vector3 dir = pointer.transform.position - firePosition.transform.position;
+            dir.Normalize();
+            GameObject bullet = Instantiate(weapon, firePosition.transform.position, Quaternion.LookRotation(dir)) as GameObject;
+            bullet.tag = "PlayerBullet";
             Destroy(bullet, 1f);
             curTime = 0;
         }
@@ -82,7 +87,7 @@ public class Example_WeaponSystem : MonoBehaviour
     {
         if (curTime >= coolTime && transGuage > 0)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);            
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Physics.Raycast(ray, out hit);            
             transGuage -= transGuageCost;
             curTime = 0;
@@ -90,8 +95,7 @@ public class Example_WeaponSystem : MonoBehaviour
             {
                 example_Enemy = hit.collider.GetComponent<Example_Enemy>();
                 example_Enemy.hp -= 5;
-            }
-            
+            }            
         }
     }
 
