@@ -11,10 +11,13 @@ public class Example_NPCWeaponSystem : MonoBehaviour
     public float coolTime = 1f;
     public float curTime;
 
+    public AudioSource soundSource;
+    public AudioClip fireSound;
+
     void Start()
     {
-        firePosition = GameObject.Find("FirePosition");
         weapon = bulletPrefab1;
+        soundSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -27,12 +30,12 @@ public class Example_NPCWeaponSystem : MonoBehaviour
 
     public void NPCBulletFire()
     {
-        if (curTime >= coolTime)
+        if (curTime >= coolTime && mainTarget != null)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 dir = mainTarget.transform.position - firePosition.transform.position;
             dir.Normalize();
             GameObject bullet = Instantiate(weapon, firePosition.transform.position, Quaternion.LookRotation(dir)) as GameObject;
+            soundSource.PlayOneShot(fireSound);
             if (gameObject.tag == "Ally")
             {
                 bullet.tag = "AllyBullet";

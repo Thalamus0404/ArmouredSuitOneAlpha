@@ -4,7 +4,12 @@ using UnityEngine;
 
 public class Exmaple_Radar : MonoBehaviour
 {
-    public List<GameObject> targets;    
+    public List<GameObject> targets;
+
+    private void Update()
+    {
+        targets.RemoveAll(GameObject => GameObject != GameObject.activeInHierarchy);
+    }
 
     private void OnTriggerEnter(Collider other)
     {
@@ -21,7 +26,17 @@ public class Exmaple_Radar : MonoBehaviour
                 {
                     targets.Add(other.gameObject);
                 }
+                if (gameObject.tag == "AllyRadar")
+                {
+                    targets.Add(other.gameObject);
+                }
                 //Debug.Log("Ãæµ¹ÇÔ");
+                break;
+            case "Ally":
+                if (gameObject.tag == "EnemyRadar")
+                {
+                    targets.Add(other.gameObject);
+                }
                 break;
             default:
                 break;

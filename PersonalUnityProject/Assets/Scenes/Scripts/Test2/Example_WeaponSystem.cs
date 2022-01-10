@@ -22,6 +22,10 @@ public class Example_WeaponSystem : MonoBehaviour
     Ray ray;
     RaycastHit hit;
     public Example_Enemy example_Enemy;
+    public Example_NPC_AI example_NPC_AI;
+
+    public AudioSource soundSource;
+    public AudioClip fireSound;
 
     void Start()
     {
@@ -30,6 +34,7 @@ public class Example_WeaponSystem : MonoBehaviour
         bulletPrefab2.tag = "weapon2";
         bulletPrefab3.tag = "weapon3";
         curTime = coolTime;
+        soundSource = GetComponent<AudioSource>();
     }
 
     void Update()
@@ -59,7 +64,7 @@ public class Example_WeaponSystem : MonoBehaviour
             }
         }
 
-        if (Input.GetKeyDown(KeyCode.Space) && !isTrans && transGuage > 0)
+        if (Input.GetKeyDown(KeyCode.Space) && !isTrans && transGuage > 100)
         {
             isTrans = true;
         }
@@ -73,8 +78,10 @@ public class Example_WeaponSystem : MonoBehaviour
     {
         if (curTime >= coolTime)
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            soundSource.PlayOneShot(fireSound);
+            //Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
             Vector3 dir = pointer.transform.position - firePosition.transform.position;
+            //Vector3 dir = transform.forward;
             dir.Normalize();
             GameObject bullet = Instantiate(weapon, firePosition.transform.position, Quaternion.LookRotation(dir)) as GameObject;
             bullet.tag = "PlayerBullet";
@@ -91,10 +98,10 @@ public class Example_WeaponSystem : MonoBehaviour
             Physics.Raycast(ray, out hit);            
             transGuage -= transGuageCost;
             curTime = 0;
-            if (hit.collider != null)
+            if (hit.collider != null && hit.collider.gameObject.tag == "Enemy")
             {
-                example_Enemy = hit.collider.GetComponent<Example_Enemy>();
-                example_Enemy.hp -= 5;
+                Debug.Log(hit.collider.gameObject.name);
+                hit.collider.GetComponent<Example_NPC_AI>().npcState = Example_NPC_AI.NPCSTATE.DESTROY;
             }            
         }
     }
