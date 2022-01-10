@@ -53,8 +53,25 @@
     <UnityVersion>2020.3.21f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_WeaponSystem.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test3\Example_WeaponAim.cs" />
     <Compile Include="Assets\Scenes\Scripts\Test\Example_MouseLook.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_RayRotation.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_NPC_AI.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_Enemy.cs" />
     <Compile Include="Assets\Scenes\Scripts\Test\Example_Flight.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Exmaple_Radar.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test\Example_WeaponShot.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test3\Example_FrontArea.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test3\Example_NPCWeaponSystem.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_CameraRotation.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test4\Example_Collision.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_PlayerMove.cs" />
+    <Compile Include="Assets\Scenes\Scripts\Test2\Example_Bullet.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Assets\DownloadAssets\SimpleFX\Materials\UnlitVertexColour_Alpha.shader" />
+    <None Include="Assets\DownloadAssets\CasualGameBGM05\ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="UnityEngine">

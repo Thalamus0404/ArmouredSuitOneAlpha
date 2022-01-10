@@ -3,7 +3,20 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Enemy
+  - Bullet
+  - weapon1
+  - weapon2
+  - weapon3
+  - EnemyBullet
+  - EnemyRadar
+  - PlayerRadar
+  - PlayerBullet
+  - Ally
+  - AllyRadar
+  - Collider
+  - AllyBullet
   layers:
   - Default
   - TransparentFX
